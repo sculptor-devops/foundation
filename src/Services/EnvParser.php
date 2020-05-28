@@ -28,6 +28,8 @@ class EnvParser
     public function __construct(string $filename)
     {
         $this->filename = $filename;
+
+        $this->parse();
     }
 
     /**
@@ -51,8 +53,6 @@ class EnvParser
      */
     public function get(string $key, bool $quoted = true): ?string
     {
-        $this->parse();
-
         if (!$this->content) {
 
             return null;
@@ -75,23 +75,33 @@ class EnvParser
         return null;
     }
 
-    public function set(string $key, string $value, bool $quoted = true): void
+    public function set(string $key, string $value, bool $quoted = true): bool
     {
         $this->parse();
 
         if (!$this->content) {
 
-            return;
+            return false;
         }
 
         $old = $this->get($key, $quoted);
 
+        $replace = "{$key}={$old}";
+
+        $replaced = "{$key}={$value}";
+
+        if ($quoted) {
+            $replace = "{$key}=\"{$old}\"";
+
+            $replaced = "{$key}=\"{$value}\"";
+        }
+
         $content = File::get($this->filename);
 
         $content = Replacer::make($content)
-            ->replace("{$key}={$old}", "{$key}={$value}")
+            ->replace($replace, $replaced)
             ->value();
 
-        File::put($this->filename, $content);
+        return File::put($this->filename, $content);
     }
 }
