@@ -1,8 +1,8 @@
 <?php namespace Sculptor\Foundation\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Sculptor\Foundation\Exceptions\PathNotFoundException;
 use Sculptor\Foundation\Runner\Runner;
-use Tests\TestCase;
 
 class RunnerTest extends TestCase
 {
@@ -10,6 +10,7 @@ class RunnerTest extends TestCase
      * A basic test example.
      *
      * @return void
+     * @throws PathNotFoundException
      */
     public function testRunnerExistent()
     {

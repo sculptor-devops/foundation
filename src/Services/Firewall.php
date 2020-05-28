@@ -1,10 +1,5 @@
 <?php namespace Sculptor\Foundation\Services;
 
-
-use Illuminate\Support\Facades\Log;
-use Sculptor\Contracts\Runner;
-use Sculptor\Contracts\RunnerResult;
-
 class Firewall extends BaseService
 {
 
@@ -72,7 +67,7 @@ class Firewall extends BaseService
     {
         $result = $this->service($this->command, 'status');
 
-        if ('Status: inactive' == clearNl($result->output())) {
+        if ('Status: inactive' == clearNewLine($result->output())) {
 
             return false;
         }

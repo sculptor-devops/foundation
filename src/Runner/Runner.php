@@ -1,11 +1,10 @@
 <?php namespace Sculptor\Foundation\Runner;
 
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 use Sculptor\Foundation\Contracts\Runner as RunnerInterface;
-use Sculptor\Foundation\Runner\Response;
+use Sculptor\Foundation\Contracts\Response as ResponseInterface;
 use Sculptor\Foundation\Exceptions\PathNotFoundException;
 
 /**
@@ -15,6 +14,11 @@ use Sculptor\Foundation\Exceptions\PathNotFoundException;
  */
 class Runner implements RunnerInterface
 {
+    /**
+     * @var string
+     */
+    private $line;
+
     /**
      * @var array<string, string>
      */
@@ -101,9 +105,9 @@ class Runner implements RunnerInterface
      * @param array<int, int|string> $command
      * @return Response
      */
-    public function run(array $command): Response
+    public function run(array $command): ResponseInterface
     {
-        $line = join(' ', $command);
+        $this->line = join(' ', $command);
         $process = new Process($command, $this->path);
 
         $process->setTimeout($this->timeout);
@@ -121,34 +125,34 @@ class Runner implements RunnerInterface
         try {
             $process->mustRun();
 
-            return $this->response($process->isSuccessful(), $process, $line);
+            return $this->response($process->isSuccessful(), $process);
 
         } catch (ProcessFailedException $exception) {
 
-            return $this->response(false, $process, $line);
+            return $this->response(false, $process);
         }
     }
 
     /**
      * @param bool $status
      * @param Process<object> $process
-     * @param string $line
      * @return Response
      */
-    private function response(bool $status, Process $process, string $line)
+    private function response(bool $status, Process $process)
     {
-        if (!$status) {
-            Log::error("Error command: {$line}");
-            Log::error("Error stdout: {$process->getOutput()}");
-            Log::error("Error code: {$process->getExitCode()}");
-            Log::error("Error: {$process->getErrorOutput()}");
-        }
-
         return new Response(
             $status,
             $process->getOutput(),
             $process->getExitCode(),
             $process->getErrorOutput()
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function line(): string
+    {
+        return $this->line;
     }
 }

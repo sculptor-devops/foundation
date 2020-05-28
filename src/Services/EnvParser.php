@@ -59,15 +59,17 @@ class EnvParser
         }
 
         foreach ($this->content as $line) {
-            if (Str::startsWith($line, $key)) {
-                $value = Str::after($line, '=');
-
-                if ($quoted) {
-                    return quoteContent($value);
-                }
-
-                return $value;
+            if (!Str::startsWith($line, $key)) {
+                continue;
             }
+
+            $value = Str::after($line, '=');
+
+            if ($quoted) {
+                return quoteContent($value);
+            }
+
+            return $value;
         }
 
         return null;

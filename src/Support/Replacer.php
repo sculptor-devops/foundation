@@ -29,7 +29,7 @@ class Replacer
      */
     public function replace(string $key, string $value): self
     {
-        $this->string = str_replace("{$key}", $value, $this->string);
+        $this->string = str_replace($key, $value, $this->string);
 
         return $this;
     }
