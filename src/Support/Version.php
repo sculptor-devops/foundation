@@ -1,4 +1,4 @@
-<?php namespace Sculptor\Foundation;
+<?php namespace Sculptor\Foundation\Support;
 
 
 use Sculptor\Foundation\Contracts\Runner;

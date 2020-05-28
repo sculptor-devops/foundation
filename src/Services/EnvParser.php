@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Sculptor\Foundation\Support\Replacer;
 
 /**
  * (c) Alessandro Cappellozza <alessandro.cappellozza@gmail.com>
  *  For the full copyright and license information, please view the LICENSE
  *  file that was distributed with this source code.
  */
-
 class EnvParser
 {
     /**
@@ -86,7 +86,9 @@ class EnvParser
 
         $content = File::get($this->filename);
 
-        $content = str_replace("{$key}={$old}", "{$key}={$value}", $content);
+        $content = Replacer::make($content)
+            ->replace("{$key}={$old}", "{$key}={$value}")
+            ->value();
 
         File::put($this->filename, $content);
     }

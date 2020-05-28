@@ -1,7 +1,7 @@
-<?php namespace Tests\Unit;
+<?php namespace Sculptor\Foundation\Tests;
 
-use Sculptor\Exceptions\PathNotFoundException;
-use Sculptor\Runner\Runner;
+use Sculptor\Foundation\Exceptions\PathNotFoundException;
+use Sculptor\Foundation\Runner\Runner;
 use Tests\TestCase;
 
 class RunnerTest extends TestCase

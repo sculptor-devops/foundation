@@ -1,6 +1,6 @@
 <?php
 
-namespace Sculptor\Fooundation;
+namespace Sculptor\Foundation;
 
 class Foundation
 {

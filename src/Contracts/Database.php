@@ -11,7 +11,7 @@ interface Database
      * @param string $password
      * @return $this
      */
-    public function set(string $password): self;
+    public function set(string $password): Database;
 
     /**
      * @param string $name
@@ -27,4 +27,9 @@ interface Database
      * @return bool
      */
     public function user(string $user, string $password, string $db, string $host = 'localhost'): bool;
+
+    /**
+     * @return string
+     */
+    public function error(): string;
 }
