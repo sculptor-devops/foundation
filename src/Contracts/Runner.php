@@ -39,7 +39,7 @@ interface Runner
 
     /**
      * @param array<int, int|string> $command
-     * @return RunnerResult
+     * @return Response
      */
-    public function run(array $command): RunnerResult;
+    public function run(array $command): Response;
 }

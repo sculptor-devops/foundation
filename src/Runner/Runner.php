@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-use Sculptor\Foundation\Contracts\RunnerResult;
 use Sculptor\Foundation\Contracts\Runner as RunnerInterface;
+use Sculptor\Foundation\Runner\Response;
 use Sculptor\Foundation\Exceptions\PathNotFoundException;
 
 /**
@@ -87,10 +87,21 @@ class Runner implements RunnerInterface
     }
 
     /**
-     * @param array<int, int|string> $command
-     * @return RunnerResult
+     * @param string $input
+     * @return $this|RunnerInterface
      */
-    public function run(array $command): RunnerResult
+    public function input(string $input): RunnerInterface
+    {
+        $this->input = $input;
+
+        return $this;
+    }
+
+    /**
+     * @param array<int, int|string> $command
+     * @return Response
+     */
+    public function run(array $command): Response
     {
         $line = join(' ', $command);
         $process = new Process($command, $this->path);
@@ -124,7 +135,7 @@ class Runner implements RunnerInterface
      * @param string $line
      * @return Response
      */
-    private function response(bool $status, Process $process, string $line): Response
+    private function response(bool $status, Process $process, string $line)
     {
         if (!$status) {
             Log::error("Error command: {$line}");
@@ -139,16 +150,5 @@ class Runner implements RunnerInterface
             $process->getExitCode(),
             $process->getErrorOutput()
         );
-    }
-
-    /**
-     * @param string $input
-     * @return $this|RunnerInterface
-     */
-    public function input(string $input): RunnerInterface
-    {
-        $this->input = $input;
-
-        return $this;
     }
 }

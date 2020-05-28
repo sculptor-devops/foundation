@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Log;
 use Sculptor\Foundation\Contracts\Runner;
-use Sculptor\Foundation\Contracts\RunnerResult;
+use Sculptor\Foundation\Contracts\Response;
 
 class BaseService
 {
@@ -20,9 +20,9 @@ class BaseService
      * @param string $service
      * @param string $command
      * @param string|null $param
-     * @return RunnerResult
+     * @return Response
      */
-    protected function service( string $service, string $command, string $param = null): RunnerResult
+    protected function service( string $service, string $command, string $param = null): Response
     {
         $command = [ $service, $command ];
 
@@ -30,15 +30,6 @@ class BaseService
             $commands[] = $param;
         }
 
-        $result = $this->runner->run($command);
-
-        if (!$result->success()) {
-            Log::error("Command: " . join(' ', $command));
-            Log::error("Code: {$result->code()}");
-            Log::error("Output: {$result->output()}");
-            Log::error("Error: {$result->error()}");
-        }
-
-        return $result;
+        return  $this->runner->run($command);
     }
 }

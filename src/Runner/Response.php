@@ -1,13 +1,13 @@
 <?php namespace Sculptor\Foundation\Runner;
 
-use Sculptor\Foundation\Contracts\RunnerResult;
+use Sculptor\Foundation\Contracts\Response as ResponseInterface;
 
 /**
  * (c) Alessandro Cappellozza <alessandro.cappellozza@gmail.com>
  *  For the full copyright and license information, please view the LICENSE
  *  file that was distributed with this source code.
  */
-class Response implements RunnerResult
+class Response implements ResponseInterface
 {
     /**
      * @var bool
