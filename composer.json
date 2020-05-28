@@ -1,0 +1,56 @@
+{
+    "name": "sculptor-devops/foundation",
+    "description": "Foundation Classes for Sculptor Devops",
+    "keywords": [
+        "sculptor",
+        "fooundation"
+    ],
+    "homepage": "https://github.com/sculptor-devops/foundation",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Alessandro Cappellozza",
+            "email": "alessandro.cappellozza@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5",
+        "ext-posix": "*",
+        "illuminate/support": "^7.0",
+        "symfony/process": "^5.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.3.1",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sculptor\\Foundation\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sculptor\\Foundation\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sculptor\\Foundation\\FoundationServiceProvider"
+            ],
+            "aliases": {
+                "Foundation": "Sculptor\\Foundation\\FoundationFacade"
+            }
+        }
+    }
+}
