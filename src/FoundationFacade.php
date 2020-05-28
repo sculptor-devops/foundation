@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Sculptor\Fooundation\Skeleton\SkeletonClass
  */
-class FooundationFacade extends Facade
+class FoundationFacade extends Facade
 {
     /**
      * Get the registered name of the component.

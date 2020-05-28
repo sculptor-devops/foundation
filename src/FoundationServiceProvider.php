@@ -4,7 +4,7 @@ namespace Sculptor\Fooundation;
 
 use Illuminate\Support\ServiceProvider;
 
-class FooundationServiceProvider extends ServiceProvider
+class FoundationServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -54,7 +54,7 @@ class FooundationServiceProvider extends ServiceProvider
 
         // Register the main class to use with the facade
         $this->app->singleton('fooundation', function () {
-            return new Fooundation;
+            return new Foundation;
         });
     }
 }

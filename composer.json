@@ -31,7 +31,10 @@
     "autoload": {
         "psr-4": {
             "Sculptor\\Foundation\\": "src"
-        }
+        },
+        "files": [
+            "src/Helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -41,7 +44,6 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-
     },
     "config": {
         "sort-packages": true

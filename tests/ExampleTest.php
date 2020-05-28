@@ -3,16 +3,16 @@
 namespace Sculptor\Fooundation\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Sculptor\Fooundation\FooundationServiceProvider;
+use Sculptor\Fooundation\FoundationServiceProvider;
 
 class ExampleTest extends TestCase
 {
 
     protected function getPackageProviders($app)
     {
-        return [FooundationServiceProvider::class];
+        return [FoundationServiceProvider::class];
     }
-    
+
     /** @test */
     public function true_is_true()
     {

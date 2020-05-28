@@ -2,7 +2,7 @@
 
 namespace Sculptor\Fooundation;
 
-class Fooundation
+class Foundation
 {
     // Build your next great package.
 }
