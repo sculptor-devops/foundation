@@ -17,29 +17,6 @@ class MySql implements Database
     private $error = 'Unknown error';
 
     /**
-     * @param string $password
-     * @param string $username
-     * @param string $host
-     * @return $this
-     */
-    public function set(string $password, string $username = 'root', string $host = '127.0.0.1'): Database
-    {
-        config([
-            'database.connections.sculptor_mysql_manager' => [
-                'driver' => 'mysql',
-                'database' => 'mysql',
-                'host' => $host,
-                'username' => $username,
-                'password' => $password
-            ]
-        ]);
-
-        DB::setDefaultConnection('sculptor_mysql_manager');
-
-        return $this;
-    }
-
-    /**
      * @param string $name
      * @return bool
      */

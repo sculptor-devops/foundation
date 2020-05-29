@@ -18,15 +18,20 @@ class BaseService
     /**
      * @param string $service
      * @param string $command
-     * @param string|null $param
+     * @param string|null $first
+     * @param string|null $second
      * @return Response
      */
-    protected function service( string $service, string $command, string $param = null): Response
+    protected function service( string $service, string $command, string $first = null, string $second = null): Response
     {
         $command = [ $service, $command ];
 
-        if ($param != null) {
-            $command[] = $param;
+        if ($first != null) {
+            $command[] = $first;
+        }
+
+        if ($second != null) {
+            $command[] = $second;
         }
 
         return  $this->runner->run($command);

@@ -48,3 +48,21 @@ if (!function_exists('quoteContent')) {
         return $data;
     }
 }
+
+if (!function_exists('splitNewLine')) {
+
+    /**
+     * @param string $data
+     * @return array<int, string>
+     */
+    function splitNewLine(string $data): array
+    {
+        $lines = preg_split("/\r\n|\n|\r/", $data);
+
+        if (is_array($lines)) {
+            return $lines;
+        }
+
+        return [];
+    }
+}

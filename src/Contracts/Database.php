@@ -8,12 +8,6 @@
 interface Database
 {
     /**
-     * @param string $password
-     * @return $this
-     */
-    public function set(string $password): Database;
-
-    /**
      * @param string $name
      * @return bool
      */

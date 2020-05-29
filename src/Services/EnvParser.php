@@ -40,7 +40,7 @@ class EnvParser
         $content = File::get($this->filename);
 
         if ($content) {
-            $this->content = preg_split("/\r\n|\n|\r/", $content);
+            $this->content = splitNewLine($content);
 
             return;
         }
@@ -102,6 +102,10 @@ class EnvParser
             ->replace($replace, $replaced)
             ->value();
 
-        return File::put($this->filename, $content);
+        if (!File::put($this->filename, $content)) {
+            return false;
+        }
+
+        return true;
     }
 }

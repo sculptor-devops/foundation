@@ -53,8 +53,8 @@ class Version
     }
 
     /**
-     * @param array $versions
-     * @param array $architectures
+     * @param array<string> $versions
+     * @param array<string> $architectures
      * @return bool
      */
     public function compatible(array $versions, array $architectures): bool
