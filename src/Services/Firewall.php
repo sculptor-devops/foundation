@@ -41,17 +41,26 @@ class Firewall extends BaseService
     }
 
     /**
+     * @param string $from
      * @param string $port
-     * @param bool $int
      * @return bool
      */
-    public function deny(string $port, bool $int = false): bool
+    public function deny(string $from, string $port): bool
     {
-        if (!$int) {
-            return $this->service($this->command, 'deny', 'from', $port)->success();
-        }
+        $command = [
+            $this->command,
+            'deny',
+            'from',
+            $from,
+            'to',
+            'any',
+            'port',
+            $port
+        ];
 
-        return $this->service($this->command, 'deny', 'from', "{$port}/tcp")->success();
+        return $this->runner
+            ->run($command)
+            ->success();
     }
 
     /**
@@ -109,7 +118,7 @@ class Firewall extends BaseService
 
         foreach ($output as $line) {
             if (preg_match($rule, $line)) {
-               $list[] = preg_replace($rule, '', $line);
+                $list[] = preg_replace($rule, '', $line);
             }
         }
 

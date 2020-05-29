@@ -111,43 +111,6 @@ class FirewallTest extends TestCase
         $this->assertFalse($firewall->allow(80, true));
     }
 
-    public function testFirewallDeny()
-    {
-        $runner = RunnerStub::success(['ufw', 'deny', 'from', '80'], "");
-
-        $firewall = new Firewall($runner);
-
-        $this->assertTrue($firewall->deny(80));
-    }
-
-    public function testFirewallDenyError()
-    {
-        $runner = RunnerStub::error(['ufw', 'deny', 'from', '80'], "");
-
-        $firewall = new Firewall($runner);
-
-        $this->assertFalse($firewall->deny(80));
-    }
-
-    public function testFirewallDenyInt()
-    {
-        $runner = RunnerStub::success(['ufw', 'deny', 'from', "80/tcp"], "");
-
-        $firewall = new Firewall($runner);
-
-        $this->assertTrue($firewall->deny(80, true));
-    }
-
-    public function testFirewallDenyIntError()
-    {
-        $runner = RunnerStub::error(['ufw', 'deny', 'from', "80/tcp"], "");
-
-        $firewall = new Firewall($runner);
-
-        $this->assertFalse($firewall->deny(80, true));
-    }
-
-
     public function testFirewallStatus()
     {
         $runner = RunnerStub::success(['ufw', 'status'], $this->outputActive);
@@ -174,4 +137,24 @@ class FirewallTest extends TestCase
 
         $this->assertTrue(count($firewall->list()) == 8);
     }
+
+    public function testFirewallDeny()
+    {
+        $runner = RunnerStub::success(['ufw', 'deny', 'from', '1.2.3.4', 'to', 'any', 'port', '80'], "");
+
+        $firewall = new Firewall($runner);
+
+        $this->assertTrue($firewall->deny( '1.2.3.4',80));
+    }
+
+    /* public function testFirewallDenyError()
+    {
+        $runner = RunnerStub::error(['ufw', 'deny', 'from', '80'], "");
+
+        $firewall = new Firewall($runner);
+
+        $this->assertFalse($firewall->deny(80));
+    }*/
+
+
 }
