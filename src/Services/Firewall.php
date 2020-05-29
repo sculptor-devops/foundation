@@ -99,7 +99,7 @@ class Firewall extends BaseService
     }
 
     /**
-     * @return array<string, string>
+     * @return array<int, string|null>
      * @throws Exception
      */
     public function list(): array
