@@ -73,6 +73,15 @@ class Daemons extends BaseService
      * @param string $name
      * @return bool
      */
+    public function disable(string $name): bool
+    {
+        return $this->service($this->command, "disable", $name)->success();
+    }    
+
+    /**
+     * @param string $name
+     * @return bool
+     */
     public function installed(string $name): bool
     {
         return $this->runner->run(['dpkg', '-s', $name])->success();

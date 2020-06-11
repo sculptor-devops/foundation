@@ -35,7 +35,7 @@ class DaemonsTest extends TestCase
 
     public function testDaemonOperationsSuccess()
     {
-        foreach (['reload', 'restart', 'start', 'stop', 'enable'] as $operation) {
+        foreach (['reload', 'restart', 'start', 'stop', 'enable', 'disable'] as $operation) {
 
             $runner = RunnerStub::success(['systemctl', $operation, 'test.service'], "status");
 
@@ -47,7 +47,7 @@ class DaemonsTest extends TestCase
 
     public function testDaemonOperationsError()
     {
-        foreach (['reload', 'restart', 'start', 'stop', 'enable'] as $operation) {
+        foreach (['reload', 'restart', 'start', 'stop', 'enable', 'disable'] as $operation) {
 
             $runner = RunnerStub::error(['systemctl', $operation, 'test.service'], "status error");
 
