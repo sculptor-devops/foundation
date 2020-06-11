@@ -42,4 +42,9 @@ interface Runner
      * @return Response
      */
     public function run(array $command): Response;
+
+    /**
+     * @return string
+     */
+    public function line(): string;
 }

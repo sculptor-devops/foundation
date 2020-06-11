@@ -135,7 +135,11 @@ class FirewallTest extends TestCase
 
         $firewall = new Firewall($runner);
 
-        $this->assertTrue(count($firewall->list()) == 8);
+        $list = $firewall->list();
+
+        $this->assertTrue(count($list) == 8);
+
+        $this->assertEquals('Nginx Full (v6)            ALLOW IN    Anywhere (v6)', $list[7]['value']);
     }
 
     public function testFirewallDeny()

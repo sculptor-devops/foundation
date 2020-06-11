@@ -38,7 +38,6 @@ class EnvParser
     private function parse(): void
     {
         $content = File::get($this->filename);
-
         if ($content) {
             $this->content = splitNewLine($content);
 
