@@ -19,10 +19,20 @@ class MySql implements Database
     /**
      * @param string $name
      * @return bool
+     * @throws Exception
      */
     public function db(string $name): bool
     {
-        return DB::statement("CREATE DATABASE IF NOT EXISTS {$name};");
+        try {
+            $this->statement("CREATE DATABASE IF NOT EXISTS {$name};", 'Error creating database');
+
+            return true;
+
+        } catch(Exception $e) {
+            $this->error = $e->getMessage();
+
+            return false;
+        }
     }
 
     /**
@@ -35,36 +45,38 @@ class MySql implements Database
     public function user(string $user, string $password, string $db, string $host = 'localhost'): bool
     {
         try {
-            DB::statement("DROP USER IF EXISTS {$user}@'{$host}'");
+            $this->statement("DROP USER IF EXISTS {$user}@'{$host}'", 'Drop user error');
 
-            $created = DB::statement("CREATE USER {$user}@'{$host}' IDENTIFIED BY '{$password}'");
+            $this->statement("CREATE USER {$user}@'{$host}' IDENTIFIED BY '{$password}'", 'Error creating user');
 
-            if (!$created) {
-                $this->error = 'Error creating user';
+            $this->statement("GRANT ALL PRIVILEGES ON {$db}.* TO '{$user}'@'{$host}';", 'Error granting privileges');
 
-                return false;
-            }
-
-            $grant = DB::statement("GRANT ALL PRIVILEGES ON {$db}.* TO '{$user}'@'{$host}';");
-
-            if (!$grant) {
-                $this->error = 'Error granting privileges';
-
-                return false;
-            }
-
-            $flush = DB::statement("FLUSH PRIVILEGES;");
-
-            if (!$flush) {
-                $this->error = 'Error flushing privileges';
-
-                return false;
-            }
+            $this->statement("FLUSH PRIVILEGES;", 'Error flushing privileges');
 
             return true;
 
         } catch (Exception $e) {
+            $this->error = $e->getMessage();
 
+            return false;
+        }
+    }
+
+    /**
+     * @param string $user
+     * @param string $password
+     * @param string $db
+     * @param string $host
+     * @return bool
+     */
+    public function password(string $user, string $password, string $db, string $host = 'localhost'): bool
+    {
+        try {
+            $this->user($user, $password, $db, $host);
+
+            return true;
+
+        } catch (Exception $e) {
             $this->error = $e->getMessage();
 
             return false;
@@ -77,5 +89,19 @@ class MySql implements Database
     public function error(): string
     {
         return $this->error;
+    }
+
+    /**
+     * @param string $query
+     * @param string $error
+     * @throws Exception
+     */
+    private function statement(string $query, string $error): void
+    {
+        $result = DB::statement($query);
+
+        if (!$result) {
+            throw new Exception($error);
+        }
     }
 }

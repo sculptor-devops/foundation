@@ -23,6 +23,15 @@ interface Database
     public function user(string $user, string $password, string $db, string $host = 'localhost'): bool;
 
     /**
+     * @param string $user
+     * @param string $password
+     * @param string $db
+     * @param string $host
+     * @return bool
+     */
+    public function password(string $user, string $password, string $db, string $host = 'localhost'): bool;
+
+    /**
      * @return string
      */
     public function error(): string;
