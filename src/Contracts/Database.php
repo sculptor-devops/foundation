@@ -14,6 +14,12 @@ interface Database
     public function db(string $name): bool;
 
     /**
+     * @param string $name
+     * @return bool
+     */
+    public function drop(string $name): bool;
+
+    /**
      * @param string $user
      * @param string $password
      * @param string $db
@@ -21,6 +27,13 @@ interface Database
      * @return bool
      */
     public function user(string $user, string $password, string $db, string $host = 'localhost'): bool;
+
+    /**
+     * @param string $user
+     * @param string $host
+     * @return bool
+     */
+    public function dropUser(string $user, string $host = 'localhost'): bool;
 
     /**
      * @param string $user

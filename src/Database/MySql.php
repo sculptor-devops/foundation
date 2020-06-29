@@ -24,7 +24,25 @@ class MySql implements Database
     public function db(string $name): bool
     {
         try {
-            $this->statement("CREATE DATABASE IF NOT EXISTS {$name};", 'Error creating database');
+            $this->statement("CREATE DATABASE IF NOT EXISTS {$name};", "Error creating database {$name}");
+
+            return true;
+
+        } catch(Exception $e) {
+            $this->error = $e->getMessage();
+
+            return false;
+        }
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function drop(string $name): bool
+    {
+        try {
+            $this->statement("DROP DATABASE {$name};", "Error dropping database {$name}");
 
             return true;
 
@@ -45,11 +63,13 @@ class MySql implements Database
     public function user(string $user, string $password, string $db, string $host = 'localhost'): bool
     {
         try {
-            $this->statement("DROP USER IF EXISTS {$user}@'{$host}'", 'Drop user error');
+            if (!$this->dropUser($user, $host)) {
+                return false;
+            }
 
-            $this->statement("CREATE USER {$user}@'{$host}' IDENTIFIED BY '{$password}'", 'Error creating user');
+            $this->statement("CREATE USER {$user}@'{$host}' IDENTIFIED BY '{$password}'", "Error creating user {$user}@'{$host}");
 
-            $this->statement("GRANT ALL PRIVILEGES ON {$db}.* TO '{$user}'@'{$host}';", 'Error granting privileges');
+            $this->statement("GRANT ALL PRIVILEGES ON {$db}.* TO '{$user}'@'{$host}';", "Error granting privileges to {$user}");
 
             $this->statement("FLUSH PRIVILEGES;", 'Error flushing privileges');
 
@@ -71,8 +91,18 @@ class MySql implements Database
      */
     public function password(string $user, string $password, string $db, string $host = 'localhost'): bool
     {
+        return $this->user($user, $password, $db, $host);
+    }
+
+    /**
+     * @param string $user
+     * @param string $host
+     * @return bool
+     */
+    public function dropUser(string $user, string $host = 'localhost'): bool
+    {
         try {
-            $this->user($user, $password, $db, $host);
+            $this->statement("DROP USER IF EXISTS {$user}@'{$host}'", "Drop user error {$user}@'{$host}");
 
             return true;
 
