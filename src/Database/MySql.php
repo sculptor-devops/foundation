@@ -42,7 +42,7 @@ class MySql implements Database
     public function drop(string $name): bool
     {
         try {
-            $this->statement("DROP DATABASE {$name};", "Error dropping database {$name}");
+            $this->statement("DROP DATABASE IF EXISTS {$name};", "Error dropping database {$name}");
 
             return true;
 
