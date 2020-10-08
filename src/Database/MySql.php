@@ -128,7 +128,7 @@ class MySql implements Database
      */
     private function statement(string $query, string $error): void
     {
-        $result = DB::statement($query);
+        $result = DB::connection('db_server')->statement($query);
 
         if (!$result) {
             throw new Exception($error);
