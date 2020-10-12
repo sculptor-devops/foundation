@@ -3,6 +3,7 @@
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Sculptor\Foundation\Contracts\Database;
+use Sculptor\Foundation\Exceptions\InvaliNameException;
 
 /**
  * (c) Alessandro Cappellozza <alessandro.cappellozza@gmail.com>
@@ -24,6 +25,11 @@ class MySql implements Database
     public function db(string $name): bool
     {
         try {
+	    if (!$this->valid($name)) {
+	        throw new InvaliNameException($name);
+            }
+
+
             $this->statement("CREATE DATABASE IF NOT EXISTS {$name};", "Error creating database {$name}");
 
             return true;
@@ -42,6 +48,10 @@ class MySql implements Database
     public function drop(string $name): bool
     {
         try {
+            if (!$this->valid($name)) {
+                throw new InvaliNameException($name);
+	    }
+
             $this->statement("DROP DATABASE IF EXISTS {$name};", "Error dropping database {$name}");
 
             return true;
@@ -63,6 +73,14 @@ class MySql implements Database
     public function user(string $user, string $password, string $db, string $host = 'localhost'): bool
     {
         try {
+            if (!$this->valid($user)) {
+                throw new InvaliNameException($name);
+	    }
+
+            if (!$this->valid($db)) {
+                throw new InvaliNameException($db);
+            }
+
             if (!$this->dropUser($user, $host)) {
                 return false;
             }
@@ -102,6 +120,10 @@ class MySql implements Database
     public function dropUser(string $user, string $host = 'localhost'): bool
     {
         try {
+            if (!$this->valid($user)) {
+                throw new InvaliNameException($user);
+            }
+
             $this->statement("DROP USER IF EXISTS {$user}@'{$host}'", "Drop user error {$user}@'{$host}");
 
             return true;
@@ -133,5 +155,14 @@ class MySql implements Database
         if (!$result) {
             throw new Exception($error);
         }
+    }
+
+    private function valid(string $name): bool
+    {
+        if (preg_match('/^[a-zA-Z]+[A-Za-z0-9_]*$/g', $name)) {
+            return true;
+        }
+
+        return false;
     }
 }
