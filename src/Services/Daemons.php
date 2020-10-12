@@ -5,7 +5,6 @@
  *  For the full copyright and license information, please view the LICENSE
  *  file that was distributed with this source code.
  */
-
 class Daemons extends BaseService
 {
     /**
@@ -30,7 +29,8 @@ class Daemons extends BaseService
      */
     public function reload(string $name): bool
     {
-        return $this->service($this->command, "reload", $name)->success();
+        return $this->report($this->service($this->command, "reload", $name))
+            ->success();
     }
 
     /**
@@ -39,7 +39,8 @@ class Daemons extends BaseService
      */
     public function restart(string $name): bool
     {
-        return $this->service($this->command, "restart", $name)->success();
+        return $this->report($this->service($this->command, "restart", $name))
+            ->success();
     }
 
     /**
@@ -48,7 +49,8 @@ class Daemons extends BaseService
      */
     public function start(string $name): bool
     {
-        return $this->service($this->command, "start", $name)->success();
+        return $this->report($this->service($this->command, "start", $name))
+            ->success();
     }
 
     /**
@@ -57,7 +59,8 @@ class Daemons extends BaseService
      */
     public function stop(string $name): bool
     {
-        return $this->service($this->command, "stop", $name)->success();
+        return $this->report($this->service($this->command, "stop", $name))
+            ->success();
     }
 
     /**
@@ -66,7 +69,8 @@ class Daemons extends BaseService
      */
     public function enable(string $name): bool
     {
-        return $this->service($this->command, "enable", $name)->success();
+        return $this->report($this->service($this->command, "enable", $name))
+            ->success();
     }
 
     /**
@@ -75,8 +79,9 @@ class Daemons extends BaseService
      */
     public function disable(string $name): bool
     {
-        return $this->service($this->command, "disable", $name)->success();
-    }    
+        return $this->report($this->service($this->command, "disable", $name))
+            ->success();
+    }
 
     /**
      * @param string $name
@@ -84,6 +89,7 @@ class Daemons extends BaseService
      */
     public function installed(string $name): bool
     {
-        return $this->runner->run(['dpkg', '-s', $name])->success();
+        return $this->report($this->runner->run(['dpkg', '-s', $name]))
+            ->success();
     }
 }

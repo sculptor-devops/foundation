@@ -10,6 +10,8 @@ class BaseService
      */
     protected $runner;
 
+    protected $error;
+
     public function __construct(Runner $runner)
     {
         $this->runner = $runner;
@@ -35,5 +37,22 @@ class BaseService
         }
 
         return  $this->runner->run($command);
+    }
+
+    protected function report(Response $response): Response
+    {
+        $this->error = null;
+
+        if (!$response->success()) {
+            $this->error = "{$response->output()}, {$response->error()}";
+
+        }
+
+        return $response;
+    }
+
+    public function error(): string
+    {
+        return $this->error;
     }
 }
