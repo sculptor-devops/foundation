@@ -35,6 +35,19 @@ class Replacer
     }
 
     /**
+     * @param array $keys
+     * @return $this
+     */
+    public function replaces(array $keys): self
+    {
+	foreach($keys as $key => $value) {
+	    $this->replace($key, $value);
+	}
+
+	return $this;
+    }
+
+    /**
      * @return string
      */
     public function value(): string

@@ -38,4 +38,13 @@ class ReplacerTest extends TestCase
 
         $this->assertFalse($replacer->value() == 'some texting change');
     }
+
+    public function testReplacesArray()
+    {
+    	$replacer = new Replacer('some text change');
+
+	$replacer->replaces([ 'some' => 'other', 'change' => 'changes' ]);
+
+	$this->assertEquals($replacer->value(), 'other text changes');
+    }
 }
