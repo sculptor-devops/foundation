@@ -159,7 +159,7 @@ class MySql implements Database
 
     private function valid(string $name): bool
     {
-        if (preg_match('/^[a-zA-Z]+[A-Za-z0-9_]*$/g', $name)) {
+        if (preg_match('/^[a-zA-Z]+[A-Za-z0-9_]*$/', $name)) {
             return true;
         }
 
