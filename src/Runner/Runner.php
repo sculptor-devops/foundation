@@ -6,6 +6,7 @@ use Symfony\Component\Process\Process;
 use Sculptor\Foundation\Contracts\Runner as RunnerInterface;
 use Sculptor\Foundation\Contracts\Response as ResponseInterface;
 use Sculptor\Foundation\Exceptions\PathNotFoundException;
+use Exception;
 
 /**
  * (c) Alessandro Cappellozza <alessandro.cappellozza@gmail.com>
@@ -131,6 +132,22 @@ class Runner implements RunnerInterface
 
             return $this->response(false, $process);
         }
+    }
+
+
+    /**
+     * @param array<int, int|string> $command
+     * @return string
+     */
+    public function runOrFail(array $command): string
+    {
+	    $result = $this->run($command);
+
+	    if (!$result->success()) {
+		throw new Exception($result->error());
+	    }
+
+	    return $result->output();
     }
 
     /**

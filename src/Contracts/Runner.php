@@ -44,6 +44,12 @@ interface Runner
     public function run(array $command): Response;
 
     /**
+     * @param array<int, int|string> $command
+     * @return string 
+     */
+    public function runOrFail(array $command): string;
+
+    /**
      * @return string
      */
     public function line(): string;
