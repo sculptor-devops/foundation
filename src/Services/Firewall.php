@@ -118,9 +118,8 @@ class Firewall extends BaseService
 
         foreach ($output as $line) {
             if (preg_match($rule, $line, $number)) {
-
                 $list[] = [
-                    'id' => $number,
+                    'id' => preg_replace('/[\s\[\]]/', '', $number[0]),
                     'value' => preg_replace($rule, '', $line)
                 ];
             }
