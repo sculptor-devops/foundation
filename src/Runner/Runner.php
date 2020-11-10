@@ -102,13 +102,15 @@ class Runner implements RunnerInterface
         return $this;
     }
 
+
     /**
-     * @param array<int, int|string> $command
-     * @return Response
+     * @param array $command
+     * @return Process
      */
-    public function run(array $command): ResponseInterface
+    private function process(array $command): Process
     {
         $this->line = join(' ', $command);
+
         $process = new Process($command, $this->path);
 
         $process->setTimeout($this->timeout);
@@ -122,6 +124,18 @@ class Runner implements RunnerInterface
         if ($this->input) {
             $process->setInput($this->input);
         }
+
+        return $process;
+    }
+
+
+    /**
+     * @param array<int, int|string> $command
+     * @return Response
+     */
+    public function run(array $command): ResponseInterface
+    {
+        $process = $this->process($command);
 
         try {
             $process->mustRun();
@@ -148,6 +162,27 @@ class Runner implements RunnerInterface
 	    }
 
 	    return $result->output();
+    }
+
+    /**
+     * @param array $command
+     * @param callable $retrun
+     * @return ResponseInterface
+     */
+    public function realtime(array $command, callable $retrun): ResponseInterface
+    {
+        $process = $this->process($command);
+
+        try {
+            $process->run($retrun);
+
+            $process->wait();
+
+            return $this->response($process->isSuccessful(), $process);
+        } catch (ProcessFailedException $exception) {
+
+            return $this->response(false, $process);
+        }
     }
 
     /**

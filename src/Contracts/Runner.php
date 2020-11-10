@@ -50,6 +50,13 @@ interface Runner
     public function runOrFail(array $command): string;
 
     /**
+     * @param array<int, int|string> $command
+     * @param callable $retrun
+     * @return Response
+     */
+    public function realtime(array $command, callable $retrun): ResponseInterface;
+
+    /**
      * @return string
      */
     public function line(): string;
