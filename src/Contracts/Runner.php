@@ -54,7 +54,7 @@ interface Runner
      * @param callable $retrun
      * @return Response
      */
-    public function realtime(array $command, callable $retrun): ResponseInterface;
+    public function realtime(array $command, callable $retrun): Response;
 
     /**
      * @return string
