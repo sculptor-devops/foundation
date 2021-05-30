@@ -16,9 +16,9 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.4|8.0",
         "ext-posix": "*",
-        "illuminate/database": "^8.0",
+        "illuminate/database": "^8.4",
         "illuminate/log": "^8.0",
         "illuminate/support": "^8.0",
         "symfony/process": "^5.0"
