@@ -1,6 +1,5 @@
 <?php namespace Sculptor\Foundation\Tests;
 
-use _HumbugBox01d8f9a04075\Nette\Neon\Exception;
 use Illuminate\Support\Facades\File;
 use PHPUnit\Framework\TestCase;
 use Sculptor\Foundation\Exceptions\PathNotFoundException;

@@ -74,7 +74,7 @@ class MySql implements Database
     {
         try {
             if (!$this->valid($user)) {
-                throw new InvaliNameException($name);
+                throw new InvaliNameException($user);
 	    }
 
             if (!$this->valid($db)) {
